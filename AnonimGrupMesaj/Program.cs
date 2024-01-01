@@ -1,3 +1,5 @@
+using AnonimGrupMesaj.Hub;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +18,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>(pattern: "/chat");
+});
 
 app.UseHttpsRedirection();
 

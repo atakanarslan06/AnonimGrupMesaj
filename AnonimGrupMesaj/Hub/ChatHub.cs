@@ -16,7 +16,7 @@ namespace AnonimGrupMesaj.Hub
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName: userRoomConnection.Room!);
             _connections[Context.ConnectionId] = userRoomConnection;
             await Clients.Group(userRoomConnection.Room!).SendAsync(method: "ReceiveMessage", arg1: "Lets Program Bot", arg2: $"{userRoomConnection.User} has Joined the Group");
-
+            await SendConnectedUser(userRoomConnection.Room!);
         }
 
         public async Task SendMessage(string message)

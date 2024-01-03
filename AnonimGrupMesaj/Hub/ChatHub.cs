@@ -15,7 +15,7 @@ namespace AnonimGrupMesaj.Hub
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName: userRoomConnection.Room!);
             _connections[Context.ConnectionId] = userRoomConnection;
-            await Clients.Group(userRoomConnection.Room!).SendAsync(method: "ReceiveMessage", arg1: "Lets Program Bot", arg2: $"{userRoomConnection.User} has Joined the Group");
+            await Clients.Group(userRoomConnection.Room!).SendAsync(method: "ReceiveMessage", arg1: "Lets Program Bot", arg2: $"{userRoomConnection.User} has Joined the Group", arg3: DateTime.Now);
             await SendConnectedUser(userRoomConnection.Room!);
         }
 
@@ -35,7 +35,7 @@ namespace AnonimGrupMesaj.Hub
                 return base.OnDisconnectedAsync(exp);
             }
             Clients.Group(roomConnection.Room!).SendAsync(method:
-                "ReceiveMessage", arg1: "Lets Program bot", arg2: $"{roomConnection.User} has left the Group");
+                "ReceiveMessage", arg1: "Lets Program bot", arg2: $"{roomConnection.User} has left the Group", arg3: DateTime.Now);
             SendConnectedUser(roomConnection.Room!);
             return base.OnDisconnectedAsync(exp);
         }

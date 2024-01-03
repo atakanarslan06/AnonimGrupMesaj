@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ChatService } from '../chat.service';
 
 @Component({
   selector: 'app-join-room',
@@ -12,6 +13,7 @@ export class JoinRoomComponent implements OnInit {
   joinRoomForm!: FormGroup;
   fb = inject(FormBuilder);
   router = inject(Router);
+  chatService = inject(ChatService);
   ngOnInit(): void {
     this.joinRoomForm = this.fb.group({
       user: ['', Validators.required],
@@ -19,7 +21,13 @@ export class JoinRoomComponent implements OnInit {
     })
   }
   joinRoom(){
-    console.log(this.joinRoomForm.value);
+    const {user, room} = this.joinRoomForm.value;
+    this.chatService.JoinRoom(user, room)
+    .then(()=>{
+      this.router.navigate(['chat']);
+    }).catch((err)=>{
+      console.log(err);
+    })
     this.router.navigate(['chat']);
   }
 }

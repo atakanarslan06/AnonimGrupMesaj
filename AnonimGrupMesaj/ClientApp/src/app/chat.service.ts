@@ -13,6 +13,9 @@ export class ChatService {
         console.log("User :", user);
         console.log("Message :", message);
         console.log("MessageTime :", messageTime);
+      });
+      this.connection.on("ConnectedUser", (users: any)=>{
+        console.log("users: ", users)
       })
    }
 

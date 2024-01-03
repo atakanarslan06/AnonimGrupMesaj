@@ -17,5 +17,13 @@ namespace AnonimGrupMesaj.Hub
             _connections[Context.ConnectionId] = userRoomConnection;
             await Clients.Group(userRoomConnection.Room!).SendAsync(method: "ReceiveMessage", arg1: "Lets Program Bot", arg2: $"{userRoomConnection.User} has Joined the Group");
         }
+
+        public async Task SendMessage(string message)
+        {
+            if(_connections.TryGetValue(Context.ConnectionId, out UserRoomConnection userRoomConnection))
+            {
+                await Clients.Groups(userRoomConnection.Room!).SendAsync(method: "ReceiveMessage", arg1: userRoomConnection.User, arg2: message, arg3: DateTime.Now);
+            }
+        }
     }
 }

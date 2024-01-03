@@ -7,7 +7,14 @@ import * as signalR from '@microsoft/signalr';
 export class ChatService {
 
   public connection : any = new signalR.HubConnectionBuilder().withUrl("http://localhost:4200/chat").configureLogging(signalR.LogLevel.Information).build();
-  constructor() { }
+  constructor() {
+    this.connection.on("ReceiveMessage", (user: string,
+      message: string, messageTime: string)=>{
+        console.log("User :", user);
+        console.log("Message :", message);
+        console.log("MessageTime :", messageTime);
+      })
+   }
 
   //start connection
   public async start(){

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { ChatService } from '../chat.service';
 import { Router } from '@angular/router';
 
@@ -7,18 +7,24 @@ import { Router } from '@angular/router';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+ 
  
   chatService = inject(ChatService);
   inputMessage = "";
   messages: any[] = [];
   router = inject(Router);
   loggedInUserName = sessionStorage.getItem("user");
+  @ViewChild('scrollMe') private scrollContainer!: ElementRef
   ngOnInit(): void {
     this.chatService.messages$.subscribe(res =>{
       this.messages = res;
       console.log(this.messages);
     });
+  }
+  ngAfterViewChecked(): void {
+    this.scrollContainer.nativeElement.scrollTop =
+    this.scrollContainer.nativeElement.scrollHeight;
   }
 
   sendMessage(){

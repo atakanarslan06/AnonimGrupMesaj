@@ -12,6 +12,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IDictionary<string, UserRoomConnection>>(IServiceProvider => new Dictionary<string, UserRoomConnection>());
 
+builder.Services.AddCors(options => 
+options.AddDefaultPolicy(builder =>
+{
+    builder.WithOrigins("").AllowAnyOrigin()
+    .AllowAnyHeader().AllowCredentials();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+app.UseCors();  
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<ChatHub>(pattern: "/chat");

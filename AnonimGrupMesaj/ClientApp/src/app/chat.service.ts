@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,9 @@ import * as signalR from '@microsoft/signalr';
 export class ChatService {
 
   public connection : any = new signalR.HubConnectionBuilder().withUrl("http://localhost:4200/chat").configureLogging(signalR.LogLevel.Information).build();
+  public messages$ = new BehaviorSubject<any>([]);
   constructor() {
+    this.start();
     this.connection.on("ReceiveMessage", (user: string,
       message: string, messageTime: string)=>{
         console.log("User :", user);
@@ -23,6 +26,7 @@ export class ChatService {
   public async start(){
     try{
       await this.connection.start();
+      console.log("Connection is established!")
     }catch (error){
       console.log(error);  
     }

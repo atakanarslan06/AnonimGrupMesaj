@@ -15,6 +15,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   messages: any[] = [];
   router = inject(Router);
   loggedInUserName = sessionStorage.getItem("user");
+  roomName = sessionStorage.getItem("room");
   @ViewChild('scrollMe') private scrollContainer!: ElementRef
   ngOnInit(): void {
     this.chatService.messages$.subscribe(res =>{

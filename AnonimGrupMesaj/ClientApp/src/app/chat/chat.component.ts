@@ -35,10 +35,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     })
   }
 
-  leaveChat()
-  {
-    this.chatService.leaveChat().then(()=>
-    this.router.navigate(['welcome'])).catch((err)=>{
+  leaveChat(){
+    this.chatService.leaveChat()
+    .then(()=>{
+      this.router.navigate(['welcome']);
+      setTimeout(() => {
+        location.reload();
+      }, 0);
+    }).catch((err)=>{
       console.log(err);
     })
   }

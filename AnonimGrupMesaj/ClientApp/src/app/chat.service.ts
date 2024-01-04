@@ -9,16 +9,18 @@ export class ChatService {
 
   public connection : any = new signalR.HubConnectionBuilder().withUrl("http://localhost:4200/chat").configureLogging(signalR.LogLevel.Information).build();
   public messages$ = new BehaviorSubject<any>([]);
+  public connectedUsers$ = new BehaviorSubject<string[]>([]);
+  public messages: any[] = [];
+  public users: string[] = [];
   constructor() {
     this.start();
     this.connection.on("ReceiveMessage", (user: string,
       message: string, messageTime: string)=>{
-        console.log("User :", user);
-        console.log("Message :", message);
-        console.log("MessageTime :", messageTime);
+        this.messages = [...this.messages, {user, message, messageTime}];
+        this.messages$.next(this.messages);
       });
       this.connection.on("ConnectedUser", (users: any)=>{
-        console.log("users: ", users)
+        this.connectedUsers$.next(users);
       })
    }
 

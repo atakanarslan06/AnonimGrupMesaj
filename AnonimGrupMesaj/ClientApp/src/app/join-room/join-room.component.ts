@@ -22,6 +22,7 @@ export class JoinRoomComponent implements OnInit {
   }
   joinRoom(){
     const {user, room} = this.joinRoomForm.value;
+    sessionStorage.setItem("user", user);
     this.chatService.JoinRoom(user, room)
     .then(()=>{
       this.router.navigate(['chat']);
